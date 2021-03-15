@@ -23,8 +23,8 @@ export class Articulo {
   apa() :string {
     let apa :string = ``;
     this.autores.forEach((autor) => {
-      let apellidos :string = autor.split(',')[0];
-      let nombre :string = autor.split(',')[1];
+      const apellidos :string = autor.split(',')[0];
+      const nombre :string = autor.split(',')[1];
       apellidos.split(' ').forEach((apellido) => apa += apellido + ' ');
       apa += ',';
       nombre.split(' ').forEach((nombre) => apa += nombre[0]+'. ' );
@@ -36,27 +36,4 @@ export class Articulo {
     return apa;
   }
 };
-
-
-let articulo1 :Articulo = new Articulo(
-    `a1`,
-    [`Delgado,Pepe`],
-    [`pepe@gmail.com`],
-    [`chos`, `miniño`],
-    `en un lugar de la mancha`,
-    `14/02/03`,
-    `amaya`,
-    54,
-);
-
-let articulo2 :Articulo = new Articulo(
-    `a1`,
-    [`pepe`],
-    [`pepe@gmail.com`],
-    [`chos`, `miniño`],
-    `en un lugar de la mancha`,
-    `14/02/03`,
-    `amaya`,
-    54,
-);
 

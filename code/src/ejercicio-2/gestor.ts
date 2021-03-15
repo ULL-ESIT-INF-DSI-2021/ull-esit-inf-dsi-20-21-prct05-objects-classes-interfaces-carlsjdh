@@ -11,34 +11,84 @@ class Gestor {
     this.articulos.push(articulo);
   }
 
+
+  printFilto(palabraClave :string[], ...filtros :string[]) :void {
+    const setFiltro = new Set;
+    palabraClave.forEach((palabra) => {
+      this.articulos.forEach((articulo) => {
+        if (!!articulo.palabrasClave.find(
+            (palabraClave) => palabraClave === palabra) ) {
+          setFiltro.add(articulo);
+        }
+      });
+    });
+    if (filtros.length === 0 ) {
+      console.table(Array.from(setFiltro) as Articulo[]);
+    } else {
+      console.table(Array.from(setFiltro) as Articulo[], filtros);
+    }
+  }
+
   print() {
     console.table(this.articulos);
+  }
+
+  exportFiltroApa(palabraClave :string[]) :string[] {
+    const setFiltro = new Set;
+    palabraClave.forEach((palabra) => {
+      this.articulos.forEach((articulo) => {
+        if (!!articulo.palabrasClave.find(
+            (palabraClave) => palabraClave === palabra) ) {
+          setFiltro.add(articulo.apa());
+        }
+      });
+    });
+    return Array.from(setFiltro) as string[];
   }
 }
 
 const articulo1 :Articulo = new Articulo(
-    `a1`,
+    `A modified...`,
+    [`Dahmani,Isma`, `Hifi,Mhand`],
+    [],
+    [`Descent`, `Heruristic`],
+    `The knapsack problem arises in...`,
+    `17/07/19`,
+    `A modified descent method-based`,
+    2,
+);
+
+
+const articulo3 :Articulo = new Articulo(
+    `a3`,
     [`Delgado Hernandez,Pepe Javier`],
     [`pepe@gmail.com`],
-    [`chos`, `miniño`],
-    `en un lugar de la mancha`,
+    [`Prueba`, `Científico`],
+    `En un lugar de la mancha`,
     `14/02/03`,
-    `amaya`,
+    `Amaya`,
     54,
 );
-console.log(articulo1.apa());
+
+
 const articulo2 :Articulo = new Articulo(
-    `a2`,
-    [`Hernández,Miguel`],
-    [`miguel@gmail.com`],
-    [`vaya`, `wow`],
-    `viva twice`,
+    `On exact...`,
+    [`Lopez Zenarosa,Gabriel`],
+    [],
+    [`Bilevel programming`],
+    `We consider the bilevel...`,
     `14/06/20`,
-    `abeja`,
-    12,
+    `Abeja`,
+    1,
 );
 
 
 const gestorArticulos :Gestor = new Gestor(articulo1, articulo2 );
+gestorArticulos.addArticulo(articulo3);
 
 gestorArticulos.print();
+
+gestorArticulos.printFilto([`Descent`, `Prueba`], `titulo`, 
+    `resumen`, `autores`);
+console.table(gestorArticulos.exportFiltroApa([`Descent`, `Prueba`]));
+
