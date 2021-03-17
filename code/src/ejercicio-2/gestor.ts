@@ -1,18 +1,29 @@
 import {Articulo} from './articulo';
 
 
-class Gestor {
+export class Gestor {
   articulos :Articulo[] = [];
+  /**
+   * Constructor del gestor
+   * @param articulos Artículos que tendrá el gestor
+   */
   constructor(...articulos :Articulo[]) {
     articulos.map( (articulo) => this.articulos.push(articulo));
   }
-
+  /**
+   * addArticulo
+   * @param articulo Artículo que desea añadir
+   */
   addArticulo(articulo :Articulo) {
     this.articulos.push(articulo);
   }
 
-
-  printFilto(palabraClave :string[], ...filtros :string[]) :void {
+  /**
+   * 
+   * @param palabraClave 
+   * @param filtros 
+   */
+  printFiltro(palabraClave :string[], ...filtros :string[]) :void {
     const setFiltro = new Set;
     palabraClave.forEach((palabra) => {
       this.articulos.forEach((articulo) => {
@@ -28,11 +39,21 @@ class Gestor {
       console.table(Array.from(setFiltro) as Articulo[], filtros);
     }
   }
-
+  /**
+   * print(), imprime la información de los artículos
+   * en formato tabla
+   */
   print() {
     console.table(this.articulos);
   }
-
+  /**
+   * exportFiltroApa
+   * @param palabraClave Palabras clave que desea filtrar para aquellos
+   * artículos que desea exportar en
+   * formato APA
+   * @returns Devuelve el un array de string de los artículos asociados
+   * a las palabras claves en formato APA
+   */
   exportFiltroApa(palabraClave :string[]) :string[] {
     const setFiltro = new Set;
     palabraClave.forEach((palabra) => {
@@ -88,7 +109,7 @@ gestorArticulos.addArticulo(articulo3);
 
 gestorArticulos.print();
 
-gestorArticulos.printFilto([`Descent`, `Prueba`], `titulo`, 
+gestorArticulos.printFiltro([`Descent`, `Prueba`], `titulo`,
     `resumen`, `autores`);
 console.table(gestorArticulos.exportFiltroApa([`Descent`, `Prueba`]));
 

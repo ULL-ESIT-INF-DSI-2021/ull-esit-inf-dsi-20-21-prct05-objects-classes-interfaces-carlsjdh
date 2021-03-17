@@ -1,19 +1,40 @@
 import {Pokemon, tipoPokemon} from './pokemon';
 
-
-class Combat {
+/**
+ * @class Combat
+ */
+export class Combat {
   private pokemon1 :Pokemon;
   private pokemon2 :Pokemon;
+  /**
+   * Constructor de la clase combat
+   * @param pokemon1 Pokemon 1 para el combate
+   * @param pokemon2 Pokemon 2 para el combate
+   */
   constructor( pokemon1 :Pokemon, pokemon2 :Pokemon ) {
     this.pokemon1 = pokemon1;
     this.pokemon2 = pokemon2;
   }
 
-
+  /**
+   * Daño que genera un pokemon
+   * @param ataque Magnitud de ataque
+   * @param defensa Magnitud de defensa
+   * @param efectividad Magnitudad de efectividad
+   * @returns Devuelve el daño que genera
+   */
   private daño(ataque :number, defensa :number, efectividad :number) :number {
     return (50.0 * (ataque / defensa ) * efectividad );
   }
 
+  /**
+   * Combate pokemon
+   * @param tipoAliado Tipo del pokemon aliado
+   * @param ataqueAliado Magnitud del ataque del pokemon aliado
+   * @param tipoEnemigo Tipo del pokemon enemigo
+   * @param defensaEnemigo Magnitud de la defensa del pokemon enemigo
+   * @returns Devuelve el daño generado teniendo en cuenta el tipo de pokemons
+   */
   private combatePokemon(tipoAliado :tipoPokemon, ataqueAliado :number,
       tipoEnemigo :tipoPokemon, defensaEnemigo :number ) {
     switch (tipoAliado) {
@@ -66,9 +87,12 @@ class Combat {
           return this.daño(ataqueAliado, defensaEnemigo, 0 );
         }
     }
-    return -1;
   }
-  start() {
+  /**
+   * Start, comienza el combate
+   * @returns Devuelve un string de quien ha ganado el combate
+   */
+  start() :string {
     let hpCombatePokemon1 :number = this.pokemon1.hp;
     let hpCombatePokemon2 :number = this.pokemon2.hp;
     let turno :boolean = true;
@@ -113,16 +137,18 @@ class Combat {
 
     if (hpCombatePokemon1 <= 0) {
       resultado = `${this.pokemon1.nombre} cae en combate`;
+
+      console.log(resultado);
+
+      return `${this.pokemon2.nombre} ` +
+      `gana el combate con ${hpCombatePokemon2} HP`;
     } else {
       resultado = `${this.pokemon2.nombre} cae en combate`;
+
+      console.log(resultado);
+
+      return `${this.pokemon1.nombre} gana` +
+      ` el combate con ${hpCombatePokemon1} HP`;
     }
-    console.log(resultado);
   }
 };
-
-const combate :Combat = new Combat(
-    new Pokemon('Pikachu', 12, 15, tipoPokemon.electrico, 45, 12, 14, 500),
-    new Pokemon('Blastoise', 12, 15, tipoPokemon.agua, 60, 12, 14, 700),
-);
-
-combate.start();

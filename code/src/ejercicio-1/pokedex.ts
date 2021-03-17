@@ -1,21 +1,40 @@
 import {Pokemon} from './pokemon';
-import {tipoPokemon} from './pokemon';
 
 type pokedexInfo = [string, Pokemon];
 
-class Pokedex {
+export class Pokedex {
+  /**
+   * Constructor de una Pokedex
+   * @param Pokemons Array de Pokemons para almacenar
+   */
   constructor(...Pokemons: pokedexInfo[]) {
     Pokemons.forEach((Creature) => {
       this[Creature[0]] = Creature[1];
     });
   }
-
-  print() {
+  /**
+   * Print(), imprime información de los Pokemons
+   * @returns En caso de estar vacía devuelve `undefined`
+   * , si tiene Pokemons dentro devuelve un string con los
+   * pokemons que tenga
+   */
+  print() :string | undefined {
+    let result :string = ``;
     Object.keys(this).forEach((key) => {
       this[key].print();
+      result += this[key].getNombre() + `\n`;
     });
+    if (result !== ``) {
+      return result;
+    } else {
+      return undefined;
+    }
   };
-
+  /**
+   * addPokemon, añade pokemons
+   * @param Pokemons Pokemons que quieres introducir en formato
+   * array
+   */
   addPokemon(...Pokemons: pokedexInfo[]) {
     Pokemons.forEach((Creature) => {
       this[Creature[0]] = Creature[1];
@@ -23,11 +42,3 @@ class Pokedex {
   }
 };
 
-
-const pokedex :Pokedex = new Pokedex(['Pikachu',
-  new Pokemon('Pikachu', 12, 15, tipoPokemon.electrico, 45, 12, 14, 500)]);
-
-pokedex.addPokemon(['Blastoise',
-  new Pokemon('Blastoise', 12, 15, tipoPokemon.agua, 55, 82, 94, 550)]);
-
-pokedex.print();
