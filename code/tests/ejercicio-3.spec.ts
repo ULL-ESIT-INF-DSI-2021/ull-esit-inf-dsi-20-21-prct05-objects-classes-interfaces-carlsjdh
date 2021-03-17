@@ -46,7 +46,7 @@ describe('Ejercicio-3: Medios de transporte', () => {
     ]);
   });
 
-  it('Comprobar eliminaciones de métodos de transporte en steet', () => {
+  it('Comprobar eliminaciones de métodos de transporte en street', () => {
     expect(calle2.add(Coche1)).to.be.equal(undefined);
 
     expect(calle1.add(Coche1)).to.be.equal(undefined);

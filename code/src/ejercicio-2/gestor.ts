@@ -1,6 +1,6 @@
 import {Articulo} from './articulo';
 
-type filtros = 'name' | 'autores' | 'email' | 'titulo' | 'resumen'
+type filtros = 'titulo' | 'autores' | 'email' | 'titulo' | 'resumen'
 
 export class Gestor {
   articulos :Articulo[] = [];
@@ -9,7 +9,7 @@ export class Gestor {
    * @param articulos Artículos que tendrá el gestor
    */
   constructor(...articulos :Articulo[]) {
-    articulos.map( (articulo) => this.articulos.push(articulo));
+    articulos.forEach( (articulo) => this.articulos.push(articulo));
   }
   /**
    * addArticulo
@@ -21,7 +21,7 @@ export class Gestor {
 
   /**
    * printFiltro
-   * @param palabraClave Palahras Clave
+   * @param palabraClave Palabras Clave
    * @param filtros Filtros que desea mostrar
    */
   printFiltro(palabraClave :string[], ...filtros :filtros[]) :void {

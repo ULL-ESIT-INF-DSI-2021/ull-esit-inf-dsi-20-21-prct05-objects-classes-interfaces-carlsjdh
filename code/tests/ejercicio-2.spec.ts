@@ -4,6 +4,26 @@ import {Articulo} from '../src/ejercicio-2/articulo';
 import {Gestor} from '../src/ejercicio-2/gestor';
 
 describe('Ejercicio-2: Artículos y gestor', () => {
+  it('Un árticulo tiene los datos correctos', () => {
+    const articulo1 :Articulo = new Articulo(
+        `A modified...`,
+        [`Dahmani,Isma`, `Hifi,Mhand`],
+        [`dahmani@gmail.com`, `hifi@gmail.com`],
+        [`Descent`, `Heruristic`],
+        `The knapsack problem arises in...`,
+        `17/07/19`,
+        `A modified descent method-based`,
+        2,
+    );
+    expect(articulo1.titulo).to.be.equal('A modified...');
+    expect(articulo1.autores).to.be.deep.equal([`Dahmani,Isma`, `Hifi,Mhand`]);
+    expect(articulo1.email).to.be.deep.equal([`dahmani@gmail.com`,
+      `hifi@gmail.com`]);
+    expect(articulo1.palabrasClave).to.be.deep.equal([`Descent`, `Heruristic`]);
+    expect(articulo1.fecha).to.be.equal(`17/07/19`);
+    expect(articulo1.numCitas).to.be.equal(2);
+  });
+
   it('Un árticulo devuelve la referencia en APA', () => {
     const articulo1 :Articulo = new Articulo(
         `A modified...`,
