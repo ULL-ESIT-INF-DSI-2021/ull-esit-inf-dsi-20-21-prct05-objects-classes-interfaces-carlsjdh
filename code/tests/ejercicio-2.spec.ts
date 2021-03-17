@@ -67,4 +67,34 @@ describe('Ejercicio-2: Artículos y gestor', () => {
     ],
     );
   });
+
+  it('Introducir dos árticulos iguales no provoca repetición', () => {
+    const articulo1 :Articulo = new Articulo(
+        `A modified...`,
+        [`Dahmani,Isma`, `Hifi,Mhand`],
+        [],
+        [`Descent`, `Heruristic`],
+        `The knapsack problem arises in...`,
+        `17/07/19`,
+        `A modified descent method-based`,
+        2,
+    );
+
+    const articulo2 :Articulo = new Articulo(
+        `A modified...`,
+        [`Dahmani,Isma`, `Hifi,Mhand`],
+        [],
+        [`Descent`, `Heruristic`],
+        `The knapsack problem arises in...`,
+        `17/07/19`,
+        `A modified descent method-based`,
+        2,
+    );
+
+    const gestorArticulos :Gestor = new Gestor(articulo1, articulo2 );
+
+    expect(gestorArticulos.exportFiltroApa([`Descent`])).to.be.deep.equal(
+        ['Dahmani ,I. ,Hifi ,M. ,(17/07/19) ,A modified...'],
+    );
+  });
 });

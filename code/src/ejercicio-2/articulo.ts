@@ -9,7 +9,7 @@ export class Articulo {
   numCitas :number;
   /**
    * Constructor del artículo
-   * @param titulo Titulo del artículo
+   * @param titulo Título del artículo
    * @param autores Autores del artículo
    * @param email Correos de los autor/es del artículo
    * @param palabrasClave Palabras claves asociadas al artículo

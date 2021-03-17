@@ -1,18 +1,27 @@
 import {metodoTransporte} from './metodoTransporte';
-import {Coche} from './coche';
-import {Peaton} from './peaton';
 
-class Street {
+export class Street {
   calle :string;
   localizacion :string;
   tiposValidos :string[];
   carretera :metodoTransporte[] = [];
+  /**
+   * Constructor de una calle
+   * @param calle Nombre de la calle
+   * @param localizacion Localización de la calle
+   * @param tipos Tipos que admite
+   */
   constructor(calle :string, localizacion :string, ...tipos :string[]) {
     this.calle = calle;
     this.localizacion = localizacion;
     this.tiposValidos = tipos;
   }
-
+  /**
+   * add
+   * @param transporte Medio de transporte que desea agregar
+   * @returns Devuelve undefined en caso de introducir un tipo
+   * erroneo o un valor ya introducido anteriormente
+   */
   add(transporte :metodoTransporte) :void | undefined {
     if ( !!this.tiposValidos.find( (tipo) => tipo === transporte.tipo) &&
     (!this.carretera.find( (tipo) => tipo.id === transporte.id))) {
@@ -21,7 +30,13 @@ class Street {
       return undefined;
     }
   }
-
+  /**
+   * delete
+   * @param transporteId id del medio de transporte que desea
+   * eliminar
+   * @returns Devuelve undefined en caso de introducir un id
+   * no eliminable
+   */
   delete(transporteId :string) :void | undefined {
     const index :number = this.carretera.findIndex((transporte) =>
       transporte.id === transporteId);
@@ -31,11 +46,21 @@ class Street {
       return undefined;
     }
   }
-
-  print() {
+  /**
+   * print
+   * @returns Devuelve un array de strings con información
+   * de los medios de transporte usados en steet además de
+   * mostrar por pantalla la información de la calle
+   */
+  print() :string[] {
     // eslint-disable-next-line max-len
     console.log(`Estado de la  calle ${this.calle} localizado en ${this.localizacion}\n`);
     this.carretera.sort((a, b) => b.velocidad - a.velocidad);
+
+    const resultadoString :string[] = this.carretera.map((transporte) => {
+      return `Soy un ${transporte.tipo} llamado ${transporte.name}`;
+    }) as string[];
+
     console.table(this.carretera, [`name`, `id`, `velocidad`]);
     const arrayTipos :string[] =
     this.carretera.map( (transporte) => transporte.tipo).
@@ -49,15 +74,6 @@ class Street {
     } );
 
     console.log(aux);
+    return resultadoString;
   }
 };
-
-
-const calle :Street = new Street(`Trinidad`, `LL`, `Peaton`, `Coche`);
-
-calle.add(new Coche( `Seat`, `FGADS8`, 500, 5 ) );
-console.log(calle.add(new Coche( `Seat`, `FGADS8`, 600, 5 ) ));
-calle.add(new Peaton( `Miguel`, `4582T`, 10) );
-calle.print();
-calle.delete(`FGADS8`);
-calle.print();

@@ -5,7 +5,11 @@
     "./src/ejercicio-1/pokemon.ts",
     "./src/ejercicio-2/articulo.ts",
     "./src/ejercicio-2/gestor.ts",
-    "./src/ejercicio-3/coche.ts"
+    "./src/ejercicio-3/coche.ts",
+    "./src/ejercicio-3/metodoTransporte.ts",
+    "./src/ejercicio-3/movable.ts",
+    "./src/ejercicio-3/peaton.ts",
+    "./src/ejercicio-3/street.ts"
   ],
   "out": "./typedocs"
 }

@@ -7,6 +7,13 @@ export class Coche extends metodoTransporte {
   tipo :string;
   puertas :number
   velocidad :number;
+  /**
+   * Constructor de un coche
+   * @param name Nombre del coche
+   * @param id Matrícula del coche
+   * @param velocidad Velocidad del coche
+   * @param puertas Número de puertas del coche
+   */
   constructor(name :string, id :string, velocidad :number, puertas :number) {
     super();
     this.name = name;

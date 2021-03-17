@@ -5,7 +5,12 @@ export class Peaton extends metodoTransporte {
   id :string;
   tipo :string;
   velocidad :number;
-
+  /**
+   * Constructor de un peatón
+   * @param name Nombre de un peatón
+   * @param id DNI del peatón
+   * @param velocidad Velocidad a la que circula
+   */
   constructor(name :string, id :string, velocidad :number) {
     super();
     this.name = name;

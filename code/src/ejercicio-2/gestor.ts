@@ -1,5 +1,6 @@
 import {Articulo} from './articulo';
 
+type filtros = 'name' | 'autores' | 'email' | 'titulo' | 'resumen'
 
 export class Gestor {
   articulos :Articulo[] = [];
@@ -19,11 +20,11 @@ export class Gestor {
   }
 
   /**
-   * 
-   * @param palabraClave 
-   * @param filtros 
+   * printFiltro
+   * @param palabraClave Palahras Clave
+   * @param filtros Filtros que desea mostrar
    */
-  printFiltro(palabraClave :string[], ...filtros :string[]) :void {
+  printFiltro(palabraClave :string[], ...filtros :filtros[]) :void {
     const setFiltro = new Set;
     palabraClave.forEach((palabra) => {
       this.articulos.forEach((articulo) => {
