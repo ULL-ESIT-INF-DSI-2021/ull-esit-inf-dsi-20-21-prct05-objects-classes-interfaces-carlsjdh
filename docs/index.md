@@ -564,7 +564,7 @@ export interface Movable {
   velocidad :number;
 };
 ````
-Establecemos una interfaz para modelar los objetos que serán metodos de transporte.  
+Establecemos una interfaz para modelar los objetos que serán métodos de transporte.  
 
 ### _Clase abstracta metodoTransporte:_  
 
