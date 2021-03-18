@@ -13,6 +13,13 @@
   - [__Explicación:__](#explicación-1)
     - [_Clase articulo:_](#clase-articulo)
     - [_Clase Gestor:_](#clase-gestor)
+- [Ejercicio 3 - Medios de transporte](#ejercicio-3---medios-de-transporte)
+  - [__Explicación:__](#explicación-2)
+    - [_Interfaz movable:_](#interfaz-movable)
+    - [_Clase abstracta metodoTransporte:_](#clase-abstracta-metodotransporte)
+      - [_Clase coche:_](#clase-coche)
+      - [_Clase peaton:_](#clase-peaton)
+    - [_Clase street:_](#clase-street)
 
 # Introducción
 Ejercicios asociados con el tema de `Clases - Objetos - Interfaces`.
@@ -530,4 +537,231 @@ Resultado:
 │    0    │ 'Dahmani ,I. ,Hifi ,M. ,(17/07/19) ,A modified...' │
 │    1    │     'Delgado Hernandez ,P. J. ,(14/02/03) ,a3'     │
 └─────────┴────────────────────────────────────────────────────┘
+````
+
+# Ejercicio 3 - Medios de transporte
+> En este ejercicio se solicita crear una serie de clases que permitan representar los diferentes vehículos y medios de transporte que se pueden usar para desplazarse por una ciudad. Entre ellos podemos encontrar los coches, motos, patinetes, trenes, guaguas, bicicletas e, incluso, podríamos considerar el ser un peatón, entre otros.
+
+> Cree una interfaz denominada Movable que incluya las propiedades y métodos necesarios que deberá implementar cualquier clase que represente a un objeto que pueda moverse. A continuación, escriba las clases necesarias para representar los medios de transporte mencionados con anterioridad.  
+
+> Por último, cree una clase Street que reciba el nombre de una calle y su localización, además de distintos tipos de vehículos que podrían circular por la misma. La clase deberá incluir un método que muestre por la consola la cantidad de vehículos de cada tipo que hay en ella en cada momento. Asimismo, se deberá poder añadir o eliminar vehículos de la calle en cualquier momento y ordenar y mostrar los vehículos según la velocidad a la que circulan.  
+
+## __Explicación:__
+Tenemos 4 clases y una interfaz:
+- `coche` : Clase que hereda de `metodoTransporte`
+- `metodoTransporte` : Clase base abstracta
+- `movable` : Interfaz para `metodoTransporte`
+- `peaton` : Clase que hereda de `metodoTransporte`
+- `street` : Clase donde se almacenará los `metodoTransporte` y visualizará información al respecto  
+
+### _Interfaz movable:_
+
+````typescript
+export interface Movable {
+  name :string;
+  id :string;
+  tipo :string;
+  velocidad :number;
+};
+````
+Establecemos una interfaz para modelar los objetos que serán metodos de transporte.  
+
+### _Clase abstracta metodoTransporte:_  
+
+````typescript
+export abstract class metodoTransporte implements Movable {
+  abstract name :string;
+  abstract id :string;
+  abstract tipo :string;
+  abstract velocidad :number;
+};
+````
+Esta clase será heredada por aquellas clases que desean ser metodos de Transporte (Coches, petaones, motos, autobuses....)  
+
+#### _Clase coche:_  
+
+````typescript
+export class Coche extends metodoTransporte {
+  name :string;
+  id :string;
+  tipo :string;
+  puertas :number
+  velocidad :number;
+
+  constructor(name :string, id :string, velocidad :number, puertas :number) {
+    super();
+    this.name = name;
+    this.id = id;
+    this.tipo = `Coche`;
+    this.puertas = puertas;
+    this.velocidad = velocidad;
+  }
+};
+````
+Esta clase como se comentó antes hereda de la clase abstracta `metodoTransporte` co un objetivo que se explicará más adelante. Podemos ver como esta clase guarda información relativa a un coche además de guardar su tipo que en este caso es de tipo coche.  
+
+#### _Clase peaton:_
+````typescript
+export class Peaton extends metodoTransporte {
+  name :string;
+  id :string;
+  tipo :string;
+  velocidad :number;
+
+  constructor(name :string, id :string, velocidad :number) {
+    super();
+    this.name = name;
+    this.id = id;
+    this.tipo = `Peaton`;
+    this.velocidad = velocidad;
+  }
+};
+````  
+Funciona de la misma forma que la clase `coche` solo que se añaden aquellos parametros asociados a un peatón.  
+
+### _Clase street:_  
+````typescript
+export class Street {
+  calle :string;
+  localizacion :string;
+  tiposValidos :string[];
+  carretera :metodoTransporte[] = [];
+
+  constructor(calle :string, localizacion :string, ...tipos :string[]) {
+    this.calle = calle;
+    this.localizacion = localizacion;
+    this.tiposValidos = tipos;
+  }
+
+  add(transporte :metodoTransporte) :void | undefined {
+    if ( !!this.tiposValidos.find( (tipo) => tipo === transporte.tipo) &&
+    (!this.carretera.find( (tipo) => tipo.id === transporte.id))) {
+      this.carretera.push(transporte);
+    } else {
+      return undefined;
+    }
+  }
+
+  delete(transporteId :string) :void | undefined {
+    const index :number = this.carretera.findIndex((transporte) =>
+      transporte.id === transporteId);
+    if ( index != -1 ) {
+      this.carretera.splice(index, 1);
+    } else {
+      return undefined;
+    }
+  }
+
+  print() :string[] {
+    // eslint-disable-next-line max-len
+    console.log(`Estado de la  calle ${this.calle} localizado en ${this.localizacion}\n`);
+    this.carretera.sort((a, b) => b.velocidad - a.velocidad);
+
+    const resultadoString :string[] = this.carretera.map((transporte) => {
+      return `Soy un ${transporte.tipo} llamado ${transporte.name}`;
+    }) as string[];
+
+    console.table(this.carretera, [`name`, `id`, `velocidad`]);
+    const arrayTipos :string[] =
+    this.carretera.map( (transporte) => transporte.tipo).
+        filter((v, i, a) => a.indexOf(v) === i);
+
+    let aux :string = ``;
+    arrayTipos.forEach( (tipo) => {
+      aux += tipo + ` = `;
+      aux += this.carretera.filter((transporte) =>
+        transporte.tipo === tipo).length.toString() + `\n`;
+    } );
+
+    console.log(aux);
+    return resultadoString;
+  }
+};
+````
+
+La clase `street` tiene como argumentos del constructor el nombre de la calle, su localización y los tipos de vehículos válidos para circular por dicha calle. Destacamos que el array `carretera` es de tipo `metodoTransporte` permitiendo de esta forma agregarle cualquier objeto que herede de dicha clase, simplificando enormente las capacidades de expansión.    
+
+````typescript
+  add(transporte :metodoTransporte) :void | undefined {
+    if ( !!this.tiposValidos.find( (tipo) => tipo === transporte.tipo) &&
+    (!this.carretera.find( (tipo) => tipo.id === transporte.id))) {
+      this.carretera.push(transporte);
+    } else {
+      return undefined;
+    }
+  }
+````
+
+El método `add` permite añadir un vehículo a la calle, se comprueba si el tipo es válido y también si no se encuentra dentro de la calle el método de transporte que se desea agregar, si no cumple con las condiciones anteriores devuelve un `undefined`.  
+
+````typescript
+  delete(transporteId :string) :void | undefined {
+    const index :number = this.carretera.findIndex((transporte) =>
+      transporte.id === transporteId);
+    if ( index != -1 ) {
+      this.carretera.splice(index, 1);
+    } else {
+      return undefined;
+    }
+  }
+````
+El método `delete` pasa como argumento el id del `metodoTransporte` ya que este debe ser único para cada objeto. Comprueba si se encuentra dentro de `carretera` con findIndex y si lo encuentra simplemente lo elimina con splice. En caso de no encontrar el elemento devuelve un `undefined`.  
+
+
+````typescript
+print() :string[] {
+    // eslint-disable-next-line max-len
+    console.log(`Estado de la  calle ${this.calle} localizado en ${this.localizacion}\n`);
+    this.carretera.sort((a, b) => b.velocidad - a.velocidad);
+
+    const resultadoString :string[] = this.carretera.map((transporte) => {
+      return `Soy un ${transporte.tipo} llamado ${transporte.name}`;
+    }) as string[];
+
+    console.table(this.carretera, [`name`, `id`, `velocidad`]);
+    const arrayTipos :string[] =
+    this.carretera.map( (transporte) => transporte.tipo).
+        filter((v, i, a) => a.indexOf(v) === i);
+
+    let aux :string = ``;
+    arrayTipos.forEach( (tipo) => {
+      aux += tipo + ` = `;
+      aux += this.carretera.filter((transporte) =>
+        transporte.tipo === tipo).length.toString() + `\n`;
+    } );
+
+    console.log(aux);
+    return resultadoString;
+  }
+````
+
+Por último, el método `print` muestra en pantalla información de los metodos de transporte que circulan por dicha calle, ordenados por su velocidad y el número de estos que hay.  
+Primero ordena el contenido por la velocidad y lo muestra por pantalla
+
+````typescript
+this.carretera.sort((a, b) => b.velocidad - a.velocidad);
+console.table(this.carretera, [`name`, `id`, `velocidad`]);
+````
+
+Luego guardamos todos los tipos que hay en la carretera 
+````typescript
+ const arrayTipos :string[] =
+    this.carretera.map( (transporte) => transporte.tipo).
+        filter((v, i, a) => a.indexOf(v) === i);
+````  
+
+Y hace un recuento de cuantos hay de cada tipo  
+````typescript
+    arrayTipos.forEach( (tipo) => {
+      aux += tipo + ` = `;
+      aux += this.carretera.filter((transporte) =>
+        transporte.tipo === tipo).length.toString() + `\n`;
+    } );
+````  
+
+Que finalmente imprime por pantalla. Recordemos que este método devuelve también un string de información
+````typescript
+    const resultadoString :string[] = this.carretera.map((transporte) => {
+      return `Soy un ${transporte.tipo} llamado ${transporte.name}`;
+    }) as string[];
 ````
