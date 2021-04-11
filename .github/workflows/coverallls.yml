@@ -31,8 +31,7 @@ jobs:
     - name: Generating coverage information
       run: npm run coverage
     - name: Checking file
-    - run: ls
-    - run: pwd
+      run: cat coverage/lcov.info
     - name: Coveralls Github Action
       uses: coverallsapp/github-action@master
       with:
