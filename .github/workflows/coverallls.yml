@@ -30,6 +30,7 @@ jobs:
       run: npm install
     - name: Generating coverage information
       run: npm run coverage
+      run: cat ./code/coveralls/lcov.conf
     - name: Coveralls Github Action
       uses: coverallsapp/github-action@master
       with:
